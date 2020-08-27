@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -74,5 +75,12 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
     @Override
     public void delete(Owner owner) {
         super.delete(owner);
+    }
+
+    @Override
+    public Set<Owner> findAllByLastNameLike(String lastName) {
+        return super.findAll().stream()
+            .filter(owner -> owner.getLastName().startsWith(lastName))
+            .collect(Collectors.toSet());
     }
 }

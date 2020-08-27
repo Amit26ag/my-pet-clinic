@@ -50,4 +50,9 @@ public class OwnerServiceJpa implements OwnerService {
     public void delete(Owner owner) {
         ownerRepository.delete(owner);
     }
+
+    @Override
+    public Set<Owner> findAllByLastNameLike(String lastName) {
+        return ownerRepository.findAllByLastNameLike(lastName + "%");
+    }
 }

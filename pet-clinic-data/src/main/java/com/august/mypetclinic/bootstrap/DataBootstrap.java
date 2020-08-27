@@ -62,7 +62,7 @@ public class DataBootstrap implements CommandLineRunner {
 
         Owner johnWick = new Owner();
         johnWick.setFirstName("John");
-        johnWick.setLastName("Wick");
+        johnWick.setLastName("Parker");
         johnWick.setCity("New York");
         johnWick.setAddress("113 Death House");
         johnWick.setTelephone("1234567890");
