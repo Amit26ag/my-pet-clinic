@@ -16,12 +16,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -94,6 +94,25 @@ class OwnersControllerTest {
     mockMvc.perform(MockMvcRequestBuilders.get("/owners"))
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/owners/1"));
+  }
+
+  @Test
+  void initOwnerForm() throws Exception {
+    mockMvc.perform(MockMvcRequestBuilders.get("/owners/new"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+        .andExpect(model().attributeExists("owner"));
+  }
+
+  @Test
+  void processCreateOwnerFormTest() throws Exception {
+    when(ownerService.save(any())).thenReturn(Owner.builder().id(1L).build());
+
+    mockMvc.perform(MockMvcRequestBuilders.post("/owners/new"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/owners/1"));
+
+    verify(ownerService).save(any());
   }
 
 }
