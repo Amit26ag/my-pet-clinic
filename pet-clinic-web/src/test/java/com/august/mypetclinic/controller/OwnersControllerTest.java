@@ -115,4 +115,25 @@ class OwnersControllerTest {
     verify(ownerService).save(any());
   }
 
+  @Test
+  void initOUpdateOwnerForm() throws Exception {
+    when(ownerService.findById(anyLong())).thenReturn(Owner.builder().id(1L).build());
+
+    mockMvc.perform(MockMvcRequestBuilders.get("/owners/1/edit"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("owners/createOrUpdateOwnerForm"))
+        .andExpect(model().attributeExists("owner"));
+  }
+
+  @Test
+  void processUpdateOwnerFormTest() throws Exception {
+    when(ownerService.save(any())).thenReturn(Owner.builder().id(1L).build());
+
+    mockMvc.perform(MockMvcRequestBuilders.post("/owners/1/edit"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/owners/1"));
+
+    verify(ownerService).save(any());
+  }
+
 }

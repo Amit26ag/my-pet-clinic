@@ -89,5 +89,22 @@ public class OwnersController {
         }
     }
 
+    @GetMapping("/{ownerId}/edit")
+    public String initUpdateForm(@PathVariable("ownerId") Long ownerId, Model model) {
+        model.addAttribute("owner", ownerService.findById(ownerId));
+        return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+    }
+
+    @PostMapping("/{ownerId}/edit")
+    public String processUpdateOwnerForm(@PathVariable("ownerId") Long ownerId, Owner owner, BindingResult result) {
+        if (result.hasErrors()) {
+            return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
+        } else {
+            owner.setId(ownerId);
+            Owner saved = ownerService.save(owner);
+            return "redirect:/owners/" + saved.getId();
+        }
+    }
+
 
 }
