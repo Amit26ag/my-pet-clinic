@@ -1,5 +1,6 @@
 package com.august.mypetclinic.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     public boolean isNew() {
         return this.id == null;
     }

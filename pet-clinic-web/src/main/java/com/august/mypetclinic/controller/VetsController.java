@@ -1,9 +1,14 @@
 package com.august.mypetclinic.controller;
 
+import com.august.mypetclinic.model.Vet;
 import com.august.mypetclinic.services.VetService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Set;
 
 @Controller
 public class VetsController {
@@ -18,6 +23,12 @@ public class VetsController {
     public String index(Model model) {
         model.addAttribute("vets", vetService.findAll());
         return "vets/index";
+    }
+
+    @GetMapping("/api/vets")
+    @ResponseBody
+    public Set<Vet> getVets() {
+        return vetService.findAll();
     }
 
 }
